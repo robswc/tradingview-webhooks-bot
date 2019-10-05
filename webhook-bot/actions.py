@@ -27,7 +27,15 @@ def calc_price(given_price):
         price = given_price
     return price
 
+def process_alert(data):
+    pre_processing(data)
+    send_order(data)
+    post_processing(data)
 
+def pre_processing(data):
+    pass
+def post_processing(data):
+    pass
 def send_order(data):
 
     """
@@ -49,4 +57,3 @@ def send_order(data):
     order = exchange.create_order(data['symbol'], data['type'], data['side'], data['amount'], calc_price(data['price']))
     # This is the last step, the response from the exchange will tell us if it made it and what errors pop up if not.
     print('Exchange Response:', order)
-

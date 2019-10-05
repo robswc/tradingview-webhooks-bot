@@ -12,7 +12,11 @@ Until then, if you run into any bugs let me know!
 from actions import send_order, parse_webhook
 from auth import get_token
 from flask import Flask, request, abort
+from dotenv import load_dotenv
+import os
 
+load_dotenv(dotenv_path='config.env')
+msg = os.getenv("WELCOME_MSG")
 # Create Flask object called app.
 app = Flask(__name__)
 
@@ -20,7 +24,7 @@ app = Flask(__name__)
 # Create root to easily let us know its on/working.
 @app.route('/')
 def root():
-    return 'online'
+    return msg
 
 
 @app.route('/webhook', methods=['POST'])
@@ -32,7 +36,7 @@ def webhook():
         if get_token() == data['key']:
             print(' [Alert Received] ')
             print('POST Received:', data)
-            send_order(data)
+            process_alert(data)
             return '', 200
         else:
             abort(403)
