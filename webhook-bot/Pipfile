@@ -9,6 +9,7 @@ verify_ssl = true
 flask = ">1.1"
 ccxt = ">1.18"
 python-dotenv = ">0.10.2"
+TA-Lib = ">0.4.16"
 
 [requires]
 python_version = "3.7"
