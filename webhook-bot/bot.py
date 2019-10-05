@@ -9,16 +9,13 @@ expect to update this as much as possible to add features as they become availab
 Until then, if you run into any bugs let me know!
 """
 
-from actions import send_order, parse_webhook
+from actions import send_order, parse_webhook, process_alert
 from auth import get_token
 from flask import Flask, request, abort
-from dotenv import load_dotenv
-import os
-
-load_dotenv(dotenv_path='config.env')
-msg = os.getenv("WELCOME_MSG")
+import logging
 # Create Flask object called app.
 app = Flask(__name__)
+logging.basicConfig(format='%(asctime)s |%(levelname)s| %(message)s', level=logging.INFO)
 
 
 # Create root to easily let us know its on/working.
@@ -34,8 +31,7 @@ def webhook():
         data = parse_webhook(request.get_data(as_text=True))
         # Check that the key is correct
         if get_token() == data['key']:
-            print(' [Alert Received] ')
-            print('POST Received:', data)
+            logging.info(f'Signal received: {data}')
             process_alert(data)
             return '', 200
         else:
@@ -45,4 +41,4 @@ def webhook():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
