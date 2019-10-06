@@ -1,11 +1,10 @@
 ![demopic](img/webhooks_bot_logo.png)
 
-![LDA](https://i.imgur.com/l5XVqqb.png)
-
-
 # Lunar Digital Assets Collaboration
 
 This branch is maintained a developed by Lunar Digital Assets with the help of @robswc - Feel free to pitch in!
+
+![LDA](https://i.imgur.com/UtMlvu0.png)
 
 # Tradingview-webhooks-bot
 
