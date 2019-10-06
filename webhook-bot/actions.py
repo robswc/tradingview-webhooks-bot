@@ -88,28 +88,27 @@ def post_processing(data, order):
         orderStatus = (checkOrder['status'])
         orderPrice = checkOrder['price']
         logging.info(f'Price: {orderPrice} | Order Filled: {orderFilled} | Order Remaining: {orderRemaining}, Status: {orderStatus}')
-        if order['status'] == 'closed' and order['remaining'] == 0.0:
+        if orderStatus == 'closed' and orderRemaining == 0.0:
             x = 30
-            needEdit = False
-            break
         else:
 
             time.sleep(1)
             bid = exchange.fetch_bid(data['symbol'])
             ask = exchange.fetch_ask(data['symbol'])
-            if (data['side'] == 'buy') and orderPrice != bid and needEdit:
-                exchange.edit_order(orderID, 'limit', 'buy', bid)
+            logging.info(f'Bid: {bid} | Ask: {ask}')
+            if (data['side'] == 'buy') and orderPrice != bid and order['remaining'] > 0:
+                exchange.edit_order(orderID, type = 'limit', side = 'buy', price = bid)
                 logging.info(f'Limit Price Readjusted to {bid}')
-            elif (data['side'] == 'sell') and orderPrice != ask and needEdit:
-                exchange.edit_order(orderID, 'limit', 'sell', ask)
+            elif (data['side'] == 'sell') and orderPrice != ask and order['remaining'] > 0:
+                exchange.edit_order(orderID, type = 'limit', side = 'sell', price = ask)
                 logging.info(f'Limit Price Readjusted to {ask}')
-            else:
-                pass
             x += 1
 
-
+    if x >= 30 and orderStatus != 'closed':
+        pass
+        #cancelorder and do marketbuy
     #print(order)
-    print('Setting Entry Stop At: ', calc_entry_stop(data['side'], calc_price(data['price'])))
+    print('Setting Entry Stop At: ', calc_entry_stop(data['side'], calc_price(order['price'])))
     free_balance = (exchange.free_balance['BTC'])
     logging.info(f'Available Balance: {free_balance} BTC.')
 
