@@ -1,4 +1,4 @@
-import ccxt, ast, os, logging
+import ccxt, ast, os, logging, time
 from dotenv import load_dotenv
 from core.exchange import CryptoExchange
 from core.trade import TradeExecutor
@@ -50,8 +50,8 @@ def pre_processing(data):
     orderSizes = exchange.fetch_orderSizes(data['symbol'])
     bidSize = orderSizes['bids'][0][1]
     askSize = orderSizes['asks'][0][1]
-    buyLopsided = (bidSize / 2 > askSize)
-    sellLopsided = (askSize / 2 > bidSize)
+    buyLopsided = (bidSize / 2) > askSize
+    sellLopsided = (askSize / 2) > bidSize
     if side == 'buy':
         if buyLopsided:
             order_price = ask
@@ -76,12 +76,38 @@ def send_order(data):
         order = exchange.create_buy_order(data['symbol'], os.getenv("QTY"), order_price, params )
     elif side == 'sell':
         order = exchange.create_sell_order(data['symbol'], os.getenv("QTY"), order_price, params )
-    print('Sending:', data['symbol'], data['type'], data['side'], os.getenv("QTY"))
-    print('Setting Entry Stop At: ', calc_entry_stop(data['side'], calc_price(data['price'])))
-    post_processing(order)
+    post_processing(data, order)
 
-def post_processing(order):
-    print(order)
+def post_processing(data, order):
+    orderID = order['id']
+    x = 0
+    while x < 30:
+        checkOrder = exchange.fetch_order(orderID)
+        orderFilled = (checkOrder['filled'])
+        orderRemaining = (checkOrder['remaining'])
+        orderStatus = (checkOrder['status'])
+        orderPrice = checkOrder['price']
+        logging.info(f'Price: {orderPrice} | Order Filled: {orderFilled} | Order Remaining: {orderRemaining}, Status: {orderStatus}')
+        if order['status'] == 'closed' and order['remaining'] == 0.0:
+            x = 30
+            break
+        else:
+            time.sleep(1)
+            bid = exchange.fetch_bid(data['symbol'])
+            ask = exchange.fetch_ask(data['symbol'])
+            if (data['side'] == 'buy') and orderPrice != bid and orderStatus != 'closed':
+                exchange.edit_order(orderID, 'limit', 'buy', bid)
+                logging.info(f'Limit Price Readjusted to {bid}')
+            elif (data['side'] == 'sell') and orderPrice != ask and orderStatus != 'closed':
+                exchange.edit_order(orderID, 'limit', 'sell', ask)
+                logging.info(f'Limit Price Readjusted to {ask}')
+            else:
+                pass
+
+            x += 1
+
+    #print(order)
+    print('Setting Entry Stop At: ', calc_entry_stop(data['side'], calc_price(data['price'])))
     free_balance = (exchange.free_balance['BTC'])
     logging.info(f'Available Balance: {free_balance} BTC.')
 

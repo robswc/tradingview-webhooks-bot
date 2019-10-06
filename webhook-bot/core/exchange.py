@@ -33,6 +33,10 @@ class CryptoExchange:
     def fetch_order(self, order_id: int):
         return self.exchange.fetch_order(order_id)
 
+    def edit_order(self, order_id: int, type: str, side: str, price: float):
+
+        return self.exchange.edit_order(order_id, type, side, price)
+
     def cancel_order(self, order_id: int):
         try:
             self.exchange.cancel_order(order_id)
