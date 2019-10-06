@@ -90,21 +90,23 @@ def post_processing(data, order):
         logging.info(f'Price: {orderPrice} | Order Filled: {orderFilled} | Order Remaining: {orderRemaining}, Status: {orderStatus}')
         if order['status'] == 'closed' and order['remaining'] == 0.0:
             x = 30
+            needEdit = False
             break
         else:
+
             time.sleep(1)
             bid = exchange.fetch_bid(data['symbol'])
             ask = exchange.fetch_ask(data['symbol'])
-            if (data['side'] == 'buy') and orderPrice != bid and orderStatus != 'closed':
+            if (data['side'] == 'buy') and orderPrice != bid and needEdit:
                 exchange.edit_order(orderID, 'limit', 'buy', bid)
                 logging.info(f'Limit Price Readjusted to {bid}')
-            elif (data['side'] == 'sell') and orderPrice != ask and orderStatus != 'closed':
+            elif (data['side'] == 'sell') and orderPrice != ask and needEdit:
                 exchange.edit_order(orderID, 'limit', 'sell', ask)
                 logging.info(f'Limit Price Readjusted to {ask}')
             else:
                 pass
-
             x += 1
+
 
     #print(order)
     print('Setting Entry Stop At: ', calc_entry_stop(data['side'], calc_price(data['price'])))
