@@ -8,22 +8,24 @@ I'll include as much documentation here and on the repo's wiki!  I
 expect to update this as much as possible to add features as they become available!
 Until then, if you run into any bugs let me know!
 """
-
+import sys
 from actions import send_order, parse_webhook, process_alert
 from auth import get_token
 from flask import Flask, request, abort
-import logging
+from loguru import logger
 # Create Flask object called app.
 app = Flask(__name__)
-logging.basicConfig(format='%(asctime)s |%(levelname)s| %(message)s', level=logging.INFO)
-
+logger.remove()
+logger.add(sys.stderr, colorize=True, format=" {level.icon} <b> {time:HH:mm:ss}</b> | <level>{level}</level> | {message}", level="DEBUG")
+logger.level("SIGNAL", no=777, color="<light-blue>", icon="🛰")
+logger.level("ORDER", no=776, color="<light-yellow>", icon="◻️")
 
 # Create root to easily let us know its on/working.
 @app.route('/')
 def root():
     return msg
 
-
+@logger.catch
 @app.route('/webhook', methods=['POST'])
 def webhook():
     if request.method == 'POST':
@@ -31,11 +33,13 @@ def webhook():
         data = parse_webhook(request.get_data(as_text=True))
         # Check that the key is correct
         if get_token() == data['key']:
-            logging.info(f'Signal received: {data}')
+            logger.log("SIGNAL", "{} | Incoming Signal: {}", data['algo'], data['side'])
             process_alert(data)
             return '', 200
         else:
+            logger.error("Incoming Signal From Unauthorized User.")
             abort(403)
+
     else:
         abort(400)
 

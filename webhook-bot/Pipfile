@@ -11,6 +11,7 @@ ccxt = ">1.18"
 python-dotenv = ">0.10.2"
 ta-lib = "*"
 numpy = "*"
+loguru = "*"
 
 [requires]
 python_version = "3.7"

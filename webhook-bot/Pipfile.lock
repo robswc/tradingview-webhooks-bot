@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a3460e5b2a8d476fbf04b32e6fa31fc6eac941e71c2a1efaec2f815982a286f6"
+            "sha256": "61cf4462dec6e272e08b98d7ce692f33fbd7f02ba186e73b3afd7c3e1d5ffd6a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -66,11 +66,11 @@
         },
         "ccxt": {
             "hashes": [
-                "sha256:3d5931547d80d736b967eea136baa161653e5f2b5f9aac04ccff59a8fd8927bb",
-                "sha256:547340925e81d61a29156ba5a8c90c5ee1543a5e3c6feed9315e777cf802f44b"
+                "sha256:60b193bc0ea38d82ee6bc6ed6ae1405fe7eab2d7ec54fbb5d97be6bd140360ef",
+                "sha256:c426fa8bd70e0bd0a34e5470facbf64a2efa1cca4398c94f9102138dcbf1882a"
             ],
             "index": "pypi",
-            "version": "==1.18.1224"
+            "version": "==1.18.1234"
         },
         "certifi": {
             "hashes": [
@@ -175,6 +175,14 @@
                 "sha256:9fe95f19286cfefaa917656583d020be14e7859c6b0252588391e47db34527de"
             ],
             "version": "==2.10.3"
+        },
+        "loguru": {
+            "hashes": [
+                "sha256:b6fad0d7aed357b5c147edcc6982606b933754338950b72d8123f48c150c5a4f",
+                "sha256:e3138bfdee5f57481a2a6e078714be20f8c71ab1ff3f07f8fb1cfa25191fed2a"
+            ],
+            "index": "pypi",
+            "version": "==0.3.2"
         },
         "markupsafe": {
             "hashes": [

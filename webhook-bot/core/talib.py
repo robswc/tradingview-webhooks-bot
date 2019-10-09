@@ -1,9 +1,8 @@
-from ccxt import Exchange, OrderNotFound, async_support
-import asyncio
+from ccxt import Exchange, OrderNotFound
 import json
 
 
-class CryptoExchange:
+class TechnicalAnalysis:
 
     def __init__(self, exchange: Exchange):
         self.exchange = exchange
@@ -22,7 +21,7 @@ class CryptoExchange:
         return self.exchange.fetch_ticker(symbol)['ask']
 
     def fetch_orderSizes(self, symbol: str = None):
-        #print(self.exchange.fetch_order_book(symbol, 1))
+        print(self.exchange.fetch_order_book(symbol, 1))
         return self.exchange.fetch_order_book(symbol, 1)
 
     def fetch_bid(self, symbol: str = None):
@@ -31,21 +30,12 @@ class CryptoExchange:
     def fetch_open_orders(self, symbol: str = None):
         return self.exchange.fetch_open_orders(symbol=symbol)
 
-    def fetch_orders(self):
-        return self.exchange.fetch_orders(limit=3)
-
     def fetch_order(self, order_id: int):
         return self.exchange.fetch_order(order_id)
 
     def edit_order(self, order_id: int, type: str, side: str, params: dict):
+
         return self.exchange.edit_order(order_id, type, side, params)
-
-    def set_leverage(self, leverage: int):
-        return self.exchange.privatePostPositionLeverage()
-
-    def get_position(self):
-        return self.exchange.privateGetPosition()
-
 
     def cancel_order(self, order_id: int):
         try:
