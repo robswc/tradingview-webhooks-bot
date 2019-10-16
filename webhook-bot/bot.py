@@ -9,21 +9,36 @@ expect to update this as much as possible to add features as they become availab
 Until then, if you run into any bugs let me know!
 """
 import sys
-from actions import send_order, parse_webhook, process_alert
+from actions import send_order, parse_webhook, process_alert, get_acctstatus
 from auth import get_token
 from flask import Flask, request, abort
 from loguru import logger
+import threading, time
+
+
 # Create Flask object called app.
 app = Flask(__name__)
 logger.remove()
 logger.add(sys.stderr, colorize=True, format=" {level.icon} <b> {time:HH:mm:ss}</b> | <level>{level}</level> | {message}", level="DEBUG")
 logger.level("SIGNAL", no=777, color="<light-blue>", icon="🛰")
 logger.level("ORDER", no=776, color="<light-yellow>", icon="◻️")
+logger.level("STATUS", no=775, color="<light-magenta>", icon="💰")
+
+
+def activate_job():
+    def run_job():
+        while True:
+            get_acctstatus()
+            time.sleep(60)
+
+    thread = threading.Thread(target=run_job)
+    thread.start()
+
 
 # Create root to easily let us know its on/working.
 @app.route('/')
 def root():
-    return msg
+    return 'Online.'
 
 @logger.catch
 @app.route('/webhook', methods=['POST'])
@@ -43,6 +58,6 @@ def webhook():
     else:
         abort(400)
 
-
 if __name__ == '__main__':
+    activate_job()
     app.run(debug=True)

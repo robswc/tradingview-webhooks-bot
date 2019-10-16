@@ -46,6 +46,15 @@ class CryptoExchange:
     def get_position(self):
         return self.exchange.privateGetPosition()
 
+    def close_position(self, symbol: str, type: str, amount: float, price: float, params: dict):
+        return self.exchange.create_order(symbol=symbol, type="limit", side="sell", amount=amount, price=price, params=params)
+
+    def close_open_orders(self):
+        try:
+            self.exchange.privateDeleteOrderAll()
+        except:
+            # treat as success
+            pass
 
     def cancel_order(self, order_id: int):
         try:
@@ -53,6 +62,9 @@ class CryptoExchange:
         except OrderNotFound:
             # treat as success
             pass
+
+    def set_stoploss(self, symbol:str, amount: float, price: float, params: dict, side: str):
+        return self.exchange.create_order(symbol=symbol, type="StopLimit", side=side, amount=amount, price=price, params=params)
 
     def create_sell_order(self, symbol: str, amount: float, price: float, params: dict):
         return self.exchange.create_order(symbol=symbol, type="limit", side="sell", amount=amount, price=price, params=params)
