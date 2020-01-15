@@ -1,0 +1,3 @@
+//@version=4
+study("Webhook Tester")
+alertcondition(true, title='Webhook Test')
