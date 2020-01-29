@@ -22,7 +22,7 @@ app = Flask(__name__)
 def root():
     return 'online'
 
-
+# create seperate path for webhooks only.
 @app.route('/webhook', methods=['POST'])
 def webhook():
     if request.method == 'POST':
