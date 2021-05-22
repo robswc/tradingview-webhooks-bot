@@ -14,7 +14,7 @@ tradingview-webhooks-bot is a trading bot, written in python, that allows users 
 
 ### Webhooks-Bot
 
-The webhooks bot is a simple framework for placing and manageing trades with tradingview's webhook alerts.
+The webhooks bot is a simple framework for placing and managing trades with tradingview's webhook alerts.
 
 ### Interface
 
