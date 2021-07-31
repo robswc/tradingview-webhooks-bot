@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
+.tile {
+    border: 1px black;
+    background-color: whitesmoke;
+    font-family: 'Roboto', sans-serif;
+    padding: 1em;
+    width: 480px;
+    margin: 1em;
+}
+
+.tile h2 {
+    margin: 0;
+    padding: 0;
+}
+
+.tile-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 0.25rem;
+}
+
+/*.shadow {*/
+/*    filter: drop-shadow(0 0 0.33rem rgba(0, 0, 0, 0.33));*/
+/*}*/
+
+.no-style-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.flex-h {
+    display: flex;
+    align-items: center;
+}
+
+.muted {
+    opacity: 50;
+    color: gray;
+}
+
+.log-area {
+    width: 100%;
+    height: 150px;
+    background-color: white;
+    overflow: scroll;
+    font-size: smaller;
+}
+
+.header-container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    padding-bottom: 0.5rem;
+}
+
+.header-subtitle {
+    color: gray;
+    padding-left: 0.5rem;
+    font-size: smaller;
+}
+
+.td-key {
+    -webkit-text-security: disc;
+}
+
+.td-key:hover {
+    -webkit-text-security: none;
+}
+
+h3 {
+    padding-bottom: 0 !important;
+    margin: 0 !important;
+    font-weight: bolder;
+}
+
+h5 {
+    font-weight: bold;
+    padding-bottom: 0 !important;
+    margin: 0 !important;
+}
+
+.link-item {
+    text-decoration: None !important;
+    color: white !important;
+}
