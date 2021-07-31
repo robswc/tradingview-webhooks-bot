@@ -1,4 +1,4 @@
-![demopic](img/webhooks_bot_logo.png)
+![demopic](img/logo.png)
 
 ![](https://img.shields.io/github/license/robswc/tradingview-webhooks-bot?style=for-the-badge)
 ![](https://img.shields.io/github/repo-size/robswc/tradingview-webhooks-bot?style=for-the-badge)
@@ -10,31 +10,44 @@
 
 # Tradingview-webhooks-bot
 
-tradingview-webhooks-bot is a trading bot, written in python that allows users to place trades with tradingview's webhook alerts.
+tradingview-webhooks-bot is a trading bot, written in python, that allows users to place trades with tradingview's webhook alerts.
+
+### Webhooks-Bot
+
+The webhooks bot is a simple framework for placing and managing trades with tradingview's webhook alerts.
+
+### Interface
+
+The webhooks-bot interface is an optional extension of the tradingview-webhooks-bot.  It allows for greater control and visualization of webhook alerts.
 
 ---
 
-## Quickstart Using Pipenv
+# Getting Started
 
-Pipenv is a tool that helps users set virtual environments and install dependencies with ease. There are many benefits to creating a virtual environment, especially for those that haev other projects running on the same server.
+tradingview-webhooks-bot can be downloaded as a zip or cloned via git (recommended).
 
-### Install pipenv and initiate virtual environment
+### Installing Required Libraries
 
-1. Install pipenv `sudo apt install pipenv`
-2. Once pipenv is installed, I recommend that you [get familiar with it](https://github.com/pypa/pipenv).
-3. Navigate to the folder where you cloned the repo. You should see `Pipfile` and `Pipfile.lock` files.
-4. Run command `pipenv install`
-5. The dependencies required to get started should now be installed. Check by running command `pipenv graph` - You should see flask and ccxt.
-6. If you want to install any other dependencies, or if you get an error that you're missing a depedency, simply use command `pipenv install <dependency>`
-7. Starting the virtual environment: `pipenv shell`
-8. Starting the flask app: `python webhook-bot.py`
+Once you have downloaded tradingview-webhooks-bot, run the following command `pip install -r requirements.txt`
 
-There you go! Nice and simple Python version and virtualenv management.
+This will install all the required libraries for tradingview-webhooks-bot to run properly.
 
-### Using ngrok for webook data retrieval
+### Getting the bot running
 
-Many people are having difficulties with their server properly receiving webhook data from TradingView. The easiest way to get started quickly without ripping your hair out from trying to figure out what's wrong, [ngrok](https://ngrok.com/) can be used to receive the signals. Create a free account, unless you want your server to go down every 8 hours. Navigate to the downloads page, and select your download to match your machine. For example, I am on Ubuntu: `wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip`
+In order for the tradingview-webhooks-bot to work, it will need to be running on a computer with open ports.  There are multiple ways to achieve this.  The recommended method is to run the bot on a hosted machine, i.e. AWS, Google Cloud, VPS, etc.  If you do not have one of these, it is possible to use ngrok.  Below are guides on how to get the bot running using these methods.
 
-### Quick Start Guide
+* hosting service (cloud computers)
+* hosting locally (personal computer)
 
-[Here is a quick start guide!](https://github.com/Robswc/tradingview-webhooks-bot/wiki/Quick-Start-Guide) Once everything is set up, you can use this guide to get started!
+### Usage
+
+Below are links to the wiki, covering how to use tradingview-webhooks-bot.  Before starting, it is recommened to read the short preface.
+
+* actions
+* place an order
+* advanced orders
+* advanced actions
+
+### Interface
+
+The interface is a new way to use the tradingview-webhooks-bot to its full potential.  The interface is an optional GUI that allows for an easier management of webhook alerts.  Interface usage is explained in more detail on the wiki page.
