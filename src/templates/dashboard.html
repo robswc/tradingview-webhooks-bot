@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TradingView Webhooks Bot</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+            integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src='https://cdn.plot.ly/plotly-2.11.1.min.js'></script>
+    <script src="/static/js/jsonFormatting.js"></script>
+    <script src="/static/js/handleLogs.js"></script>
+    <link href="/static/css/pre.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-lg-6">
+            <img src="/static/img/tvwb-logo.png" style="height: 128px" class="py-3 my-2 ps-5 ms-5"/>
+        </div>
+        <div class="col-lg-6 d-flex align-items-center">
+            <div>
+                <div class="text-muted fw-bolder">MOTD: TVWB 0.5v released!</div>
+                <div class="text-muted">
+                    <i>tradingview-webhooks-bot is <b>not</b> affiliated with TradingView.com</i>
+                    <br>follow development <a href="https://www.twitter.com/robswc" class="link-secondary">@robswc</a>
+                    on <i class="fa-brands fa-twitter fs-5 pe-3 text-muted"></i>
+                </div>
+            </div>
+        </div>
+        <div style="border-bottom: whitesmoke 2px dashed;"></div>
+    </div>
+
+    <div class="row mb-3">
+        <h1><i class="fa-solid fa-user-gear pe-3 text-muted"></i>Settings</h1>
+        <div class="col-lg-12">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                aria-controls="flush-collapseOne">
+                            <div class="d-flex align-items-center gap-2">
+                                <div>Registered Actions</div>
+                                <div class="text-muted small">({{ action_list|length }})</div>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                         data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            {% if action_list %}
+                                {% for action in action_list %}
+                                    <div class="card shadow-sm mb-2">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fa-brands fa-python fs-3 pe-3 text-muted"></i>
+                                                    {{ action.name }}
+                                                </div>
+                                                <i class="fa-solid fa-circle-check fs-3 text-success"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="text-muted p-2">
+                                    <div class="fs-3">No <code>actions</code> are currently registered.</div>
+                                    <p><a href="">See how to register actions</a> on our GitHub Wiki.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                aria-controls="flush-collapseTwo">
+                            <div class="d-flex align-items-center gap-2">
+                                <div>Registered Events</div>
+                                <div class="text-muted small">({{ event_list|length }})</div>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                         data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            {% if event_list %}
+                                {% for event in event_list %}
+                                    <div class="card shadow-sm">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center gap-4">
+                                                    <div class='d-flex align-items-center'>
+                                                        <i class="fa-brands fa-python fs-3 pe-3 text-muted"></i>
+                                                        <div>{{ event.name }}</div>
+                                                    </div>
+                                                    <div>
+                                                        <details>
+                                                            <summary class="text-muted small">details</summary>
+                                                            <div class='d-flex flex-column gap-2 ps-3 ms-1 border-start border-light'>
+                                                                <div class="p-3 bg-light shadow-sm">
+                                                                    <div class='fs-4'>Triggers</div>
+                                                                    {% for action in event._actions %}
+                                                                        <div class='d-flex align-items-center'>
+                                                                            <div class="fw-bolder">{{ action }}</div>
+                                                                            <div class="ms-2 text-muted">: action</div>
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                </div>
+                                                                <div class="p-3 bg-light shadow-sm">
+                                                                    <div class='fs-4'>Key</div>
+                                                                    <div>
+                                                                        <code id="{{ key }}-field">{{ event.key }}</code>
+                                                                        <button
+                                                                                onclick="copyToClipboard('#{{ key }}-field')"
+                                                                                class="btn btn-sm ms-2 px-2 py-1 shadow-sm"
+                                                                        >
+
+                                                                            <i class="fa-solid fa-copy"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </details>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <i class="fa-solid fa-circle-check fs-3 text-success"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="text-muted p-2">
+                                    <div class="fs-3">No <code>events</code> are currently registered.</div>
+                                    <p><a href="">See how to register events</a> on our GitHub Wiki.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseThree" aria-expanded="false"
+                                aria-controls="flush-collapseThree">
+                            Registered Schemas
+                        </button>
+                    </h2>
+                    <div id="flush-collapseThree" class="accordion-collapse collapse"
+                         aria-labelledby="flush-headingThree"
+                         data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <p class="text-muted">
+                                    Schemas can make reading data from Tradingview easier!
+                                    <a href="https://www.github.com" class="link-secondary">(Read more about schemas on
+                                        the Wiki)</a>
+                                    Below are the schemas that have been registered in <code>settings.py</code>
+                                    from here, you can copy and paste the generated JSON into your tradingview webhook.
+                                </p>
+                            </div>
+                            <div class="row">
+                                {% for k, v in schema_list.items() %}
+                                    <div class="col-4">
+                                        <div class="card shadow-sm">
+                                            <div class="card-body">
+                                                <span class="fs-3 pe-2">{{ k }}</span><span
+                                                    class="text-muted">(JSON)</span>
+                                                <pre class="json-snippet bg-dark text-light">
+                                                <code>
+                                                    {{ v }}
+                                                </code>
+                                            </pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <h1><i class="fa-solid fa-chart-area pe-3 text-muted"></i>Monitoring</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 h-100">
+            <div class="p-1 text-muted fs-3">Graph</div>
+            <div class="card h-100 shadow-sm">
+                <div class="card-body h-100">
+                    {#                            <div id="metricsTest"></div>#}
+                    <div class="text-muted text-center">More features coming soon!</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 h-100">
+            <div class="p-1 text-muted fs-3">Logs</div>
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <div id="logContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var data = [
+        {
+            x: ['giraffes', 'orangutans', 'monkeys'],
+            y: [20, 14, 23],
+            type: 'bar'
+        }
+    ];
+
+    Plotly.newPlot('metricsTest', data);
+</script>
+<script>
+    $('.json-snippet').each(function () {
+        const jsonText = $(this).children().text();
+        console.log(jsonText)
+        const jsonObj = JSON.parse(jsonText)
+        console.log(jsonObj)
+        $(this).html(library.json.prettyPrint(jsonObj));
+    });
+</script>
+<script>
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+    }
+</script>
+<div class="beta-border-bottom"></div>
+<div class="beta-border-top"></div>
+<div class="beta-tag">
+    TVWB BETA v{{ version }}
+</div>
+</body>
+</html>
