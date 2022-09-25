@@ -3,7 +3,7 @@ from datetime import datetime
 from hashlib import md5
 from logging import getLogger, DEBUG
 
-from commons import LOG_LOCATION
+from commons import LOG_LOCATION, UNIQUE_KEY
 from components.logs.log_event import LogEvent
 from utils.log import get_logger
 
@@ -44,7 +44,7 @@ class Event:
         self.name = self.get_name()
         self.webhook = True
         # generate consistent hash using hashlib, based off of name
-        self.key = f'{self.name}:{md5(self.name.encode()).hexdigest()[:6]}'
+        self.key = f'{self.name}:{md5(f"{self.name + UNIQUE_KEY}".encode()).hexdigest()[:6]}'
         self._actions = []
         self.logs = [LogEvent().from_line(line) for line in open(LOG_LOCATION, 'r') if line.split(',')[0] == self.name]
 
