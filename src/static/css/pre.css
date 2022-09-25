@@ -1,0 +1,17 @@
+pre {
+    padding: 10px 20px;
+    margin: 20px;
+    border-radius: 5px;
+}
+
+.json-key {
+    color: #0075e0;
+}
+
+.json-value {
+    color: #0075e0;
+}
+
+.json-string {
+    color: #fd5447;
+}

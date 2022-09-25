@@ -1,12 +1,8 @@
 import os
-from logging import getLogger, DEBUG
 
-from utils.log import CONSOLE_HANDLER
+from utils.log import get_logger
 
-logger = getLogger(__name__)
-logger.addHandler(CONSOLE_HANDLER)
-logger.setLevel(DEBUG)
-
+logger = get_logger(__name__)
 
 def copy_from_template(source: str, target: str, tokens, replacements):
     """

@@ -1,0 +1,30 @@
+/*body {*/
+/*    background-color: ghostwhite !important;*/
+/*}*/
+
+.beta-border-bottom {
+   position:fixed;
+   bottom:0;
+   width:100%;
+   height:5px;   /* Height of the footer */
+   background:#fd5447;
+}
+
+.beta-border-top {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 5px;
+    background: #fd5447;
+    z-index: 99;
+}
+
+.beta-tag {
+    background: #fd5447;
+    position:fixed;
+    top: -5px;
+    left: 50px;
+    padding: 0.5rem;
+    font-weight: bold;
+    border-radius: 10px;
+}

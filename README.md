@@ -1,4 +1,4 @@
-![demopic](img/webhooks_bot_logo.png)
+![demopic](https://user-images.githubusercontent.com/38849824/160300853-ef6fe753-36d6-41a9-9bd2-8a06f7add71d.png)
 
 ![](https://img.shields.io/github/license/robswc/tradingview-webhooks-bot?style=for-the-badge)
 ![](https://img.shields.io/github/repo-size/robswc/tradingview-webhooks-bot?style=for-the-badge)

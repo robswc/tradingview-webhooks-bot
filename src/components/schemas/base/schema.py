@@ -4,4 +4,4 @@ class Schema:
         pass
 
     def as_json(self):
-        pass
+        raise NotImplementedError
