@@ -11,7 +11,7 @@
 # The What
 
 Tradingview-webhooks-bot (TVWB) is a small, Python-based framework that allows you to extend or implement your own logic
-using data from [Tradingview's webhooks](https://www.tradingview.com/support/solutions/43000529348-about-webhooks/).
+using data from [Tradingview's webhooks](https://www.tradingview.com/support/solutions/43000529348-about-webhooks/). TVWB is not a trading library, it's a framework for building your own trading logic.
 
 # The How
 
@@ -20,8 +20,11 @@ TVWB uses [Flask](https://flask.palletsprojects.com/en/2.2.x/) to handle the web
 
 # Quickstart
 
-* Installation
-* Serving the App
+If you an experienced Python developer, you can skip the Installation and Serving the app Sections.
+They cover installing with pip and serving a flask app.
+
+* [Installation](https://github.com/robswc/tradingview-webhooks-bot/wiki/Installation)
+* [Serving the App](https://github.com/robswc/tradingview-webhooks-bot/wiki/Hosting)
 
 **Ensure you're in the `src` directory.**
 
@@ -68,3 +71,36 @@ class NewAction(Action):
 ```bash
 python3 tvwb.py start
 ```
+
+### Sending a webhook
+
+Navigate to `http://localhost:5000`.  Ensure you see the `WebhookReceived` Event.  Click "details" to expand the event box.
+Find the "Key" field and note the value.  This is the key you will use to send a webhook to the app.  Copy the JSON data below,
+replacing "YOUR_KEY_HERE" with the key you copied.
+
+```json
+{
+    "key": "YOUR_KEY_HERE",
+    "message": "I'm a webhook!"
+}
+```
+
+The `key` field is required, as it both authenticates the webhook and tells the app which event to fire.  Besides that, you can
+send any data you want.  The data will be available to your action via the `validate_data()` method. (see above, editing action)
+
+On tradingview, create a new webhook with the above JSON data and send it to `http://ipaddr:5000/webhook`.  You should see the data from the webhook printed to the console.
+
+### FAQs
+
+#### So how do I actually trade?
+
+To actually submit trades, you will have to use a library like [ccxt](https://github.com/ccxt/ccxt) for crypto currency.  For other brokers, usually there are 
+SDKs or APIs available.  The general workflow would look something like: webhook signal -> tvwb (use ccxt here) -> broker.  Your trade submission would take place within the `run` method of a custom action.
+
+#### The tvwb.py shell
+
+You can use the `tvwb.py shell` command to open a python shell with the app context.  This allows you to interact with the app without having to enter `python3 tvwb.py` every time.
+
+#### How do I get more help?
+
+At the moment, the wiki is under construction.  However, you may still find some good info on there.  For additional assistance you can DM me on [Twitter](https://twitter.com/robswc) or join the [Discord](https://discord.gg/wrjuSaZCFh).  I will try my best to get back to you!
