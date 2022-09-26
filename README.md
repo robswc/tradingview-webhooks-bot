@@ -8,33 +8,63 @@
 
 
 
-# Tradingview-webhooks-bot
+# The What
 
-tradingview-webhooks-bot is a trading bot, written in python that allows users to place trades with tradingview's webhook alerts.
+Tradingview-webhooks-bot (TVWB) is a small, Python-based framework that allows you to extend or implement your own logic
+using data from [Tradingview's webhooks](https://www.tradingview.com/support/solutions/43000529348-about-webhooks/).
 
----
+# The How
 
-## Quickstart Using Pipenv
+TVWB is fundamentally a set of components with a webapp serving as the GUI. TVWB was built with event-driven architecture in mind that provides you with the building blocks to extend or implement your own custom logic.
+TVWB uses [Flask](https://flask.palletsprojects.com/en/2.2.x/) to handle the webhooks and provides you with a simple API to interact with the data.
 
-Pipenv is a tool that helps users set virtual environments and install dependencies with ease. There are many benefits to creating a virtual environment, especially for those that haev other projects running on the same server.
+# Quickstart
 
-### Install pipenv and initiate virtual environment
+* Installation
+* Serving the App
 
-1. Install pipenv `sudo apt install pipenv`
-2. Once pipenv is installed, I recommend that you [get familiar with it](https://github.com/pypa/pipenv).
-3. Navigate to the folder where you cloned the repo. You should see `Pipfile` and `Pipfile.lock` files.
-4. Run command `pipenv install`
-5. The dependencies required to get started should now be installed. Check by running command `pipenv graph` - You should see flask and ccxt.
-6. If you want to install any other dependencies, or if you get an error that you're missing a depedency, simply use command `pipenv install <dependency>`
-7. Starting the virtual environment: `pipenv shell`
-8. Starting the flask app: `python webhook-bot.py`
+**Ensure you're in the `src` directory.**
 
-There you go! Nice and simple Python version and virtualenv management.
+### Creating an action
 
-### Using ngrok for webook data retrieval
+```bash
+python3 tvwb.py action:create NewAction --register
+```
 
-Many people are having difficulties with their server properly receiving webhook data from TradingView. The easiest way to get started quickly without ripping your hair out from trying to figure out what's wrong, [ngrok](https://ngrok.com/) can be used to receive the signals. Create a free account, unless you want your server to go down every 8 hours. Navigate to the downloads page, and select your download to match your machine. For example, I am on Ubuntu: `wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip`
+This creates an action and automatically registers it with the app.  [Learn more on registering here](https://github.com/robswc/tradingview-webhooks-bot/wiki/Registering).
 
-### Quick Start Guide
+_Note, action and event names should **_always_** be in PascalCase._
 
-[Here is a quick start guide!](https://github.com/Robswc/tradingview-webhooks-bot/wiki/Quick-Start-Guide) Once everything is set up, you can use this guide to get started!
+### Linking an action to an event
+
+```bash
+python3 tvwb.py action:link NewAction WebhookReceived
+```
+
+This links an action to the `WebhookReceived` event.  The `WebhookReceived` event is fired when a webhook is received by the app and is currently the only default event.
+
+### Editing an action
+
+Navigate to `src/components/actions/NewAction.py` and edit the `run` method.  You will see something similar to the following code.
+Feel free to delete the "Custom run method" comment and replace it with your own logic.  Below is an example of how you can access
+the webhook data.
+
+```python
+class NewAction(Action):
+    def __init__(self):
+        super().__init__()
+
+    def run(self, *args, **kwargs):
+        super().run(*args, **kwargs)  # this is required
+        """
+        Custom run method. Add your custom logic here.
+        """
+        data = self.validate_data()  # always get data from webhook by calling this method!
+        print('Data from webhook:', data)
+```
+
+### Running the app
+
+```bash
+python3 tvwb.py start
+```
