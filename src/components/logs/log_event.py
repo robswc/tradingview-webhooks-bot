@@ -8,7 +8,7 @@ class LogEvent:
         self.parent = parent
         self.event_type = event_type
         self.event_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.event_data = event_data
+        self.event_data = event_data.replace(',', ' ') if event_data else None
 
     def __str__(self):
         return "Event Type: " + self.event_type + " Event Time: " + self.event_time + " Event Data: " + self.event_data

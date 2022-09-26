@@ -50,16 +50,17 @@ def validate_settings():
     # make sure all registered actions exist
     for action in REGISTERED_ACTIONS:
         try:
-            cls = getattr(importlib.import_module(f'components.actions.{snake_case(action)}', action), action)()
+            getattr(importlib.import_module(f'components.actions.{snake_case(action)}', action), action)()
         except ImportError:
             logger.critical(f'Action ({action}) not found')
             return False
 
     # make sure all registered events exist
     for event in REGISTERED_EVENTS:
-        cls = getattr(importlib.import_module(f'components.events.{snake_case(event)}', event), event)()
-        if not cls:
-            logger.critical(f'Event ({event}) does not exist')
+        try:
+            getattr(importlib.import_module(f'components.events.{snake_case(event)}', event), event)()
+        except ImportError:
+            logger.critical(f'Event ({event}) not found')
             return False
 
     return True
@@ -163,7 +164,18 @@ def delete_action(action_name):
 
 def add_event(event_name):
     """Add event to settings.py"""
-    build_settings(events=[event_name])
+
+    events = []
+    try:
+        from settings import REGISTERED_EVENTS
+        events = REGISTERED_EVENTS + [event_name]
+    except ImportError:
+        logger.error('Could not import REGISTERED_EVENTS from settings.py')
+
+    # use set to remove duplicates
+    events = list(set(events))
+
+    build_settings(events=events)
 
 
 def link_action_to_event(action_name, event_name):

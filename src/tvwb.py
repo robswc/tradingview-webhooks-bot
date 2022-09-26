@@ -130,6 +130,9 @@ def create_event(name: str):
 
 @app.command('event:register')
 def register_event(name: str):
+    """
+    Registers an event to the events registry. (Adds to settings.py)
+    """
     logger.info(f'Registering event --->\t{name}')
     try:
         add_event(name)
@@ -145,6 +148,13 @@ def trigger_event(name: str):
     event.trigger_actions()
     return True
 
+
+@app.command('shell')
+def shell():
+    cmd = '--help'
+    while cmd not in ['exit', 'quit', 'q']:
+        run(f'python3 tvwb.py {cmd}'.split(' '))
+        cmd = typer.prompt("Enter TVWB command (q) to exit")
 
 if __name__ == "__main__":
     app()

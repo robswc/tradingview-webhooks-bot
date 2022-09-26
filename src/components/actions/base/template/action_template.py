@@ -6,11 +6,8 @@ class TemplateActionClass(Action):
         super().__init__()
 
     def run(self, *args, **kwargs):
-        super().run(*args, **kwargs)
+        super().run(*args, **kwargs)  # this is required
         """
         Custom run method. Add your custom logic here.
         """
         print(self.name, '---> action has run!')
-
-
-template_action = TemplateActionClass()

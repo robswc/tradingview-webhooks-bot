@@ -1,17 +1,15 @@
 from components.actions.base.action import Action
 
 
-class HandleOrderExample(Action):
+class PrintData(Action):
     def __init__(self):
         super().__init__()
-        self.name = 'handle_order_example'
 
     def run(self, *args, **kwargs):
-        super(Action).run(*args, **kwargs)
+        super().run(*args, **kwargs)  # this is required
         """
         Custom run method. Add your custom logic here.
         """
         print(self.name, '---> action has run!')
-
-
-handle_order_example = HandleOrderExample()
+        data = self.validate_data()  # always get data from webhook by calling this method!
+        print('Data from webhook:', data)

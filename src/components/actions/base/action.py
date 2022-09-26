@@ -47,6 +47,7 @@ class Action:
     def __init__(self):
         self.name = self.get_name()
         self.logs = []
+        self._raw_data = None
 
     def get_name(self):
         return type(self).__name__
@@ -67,6 +68,16 @@ class Action:
         """
         self.objects._actions.append(self)
         logger.info(f'ACTION REGISTERED --->\t{str(self)}')
+
+    def set_data(self, data):
+        """Sets data for action"""
+        self._raw_data = data
+
+    def validate_data(self):
+        """Ensures data is valid"""
+        if not self._raw_data:
+            raise ValueError('No data provided to action')
+        return self._raw_data
 
     def run(self, *args, **kwargs):
         """

@@ -1,9 +1,9 @@
 # actions
-REGISTERED_ACTIONS = ['NewAction']
+REGISTERED_ACTIONS = ['PrintData']
 
 # events
-REGISTERED_EVENTS = ['NewEvent']
+REGISTERED_EVENTS = ['WebhookReceived']
 
 # links
-REGISTERED_LINKS = [('NewAction', 'NewEvent')]
+REGISTERED_LINKS = [('PrintData', 'WebhookReceived')]
 

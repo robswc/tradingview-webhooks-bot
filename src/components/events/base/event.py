@@ -42,8 +42,7 @@ class Event:
 
     def __init__(self):
         self.name = self.get_name()
-        self.webhook = True
-        # generate consistent hash using hashlib, based off of name
+        self.webhook = True  # all events are webhooks by default
         self.key = f'{self.name}:{md5(f"{self.name + UNIQUE_KEY}".encode()).hexdigest()[:6]}'
         self._actions = []
         self.logs = [LogEvent().from_line(line) for line in open(LOG_LOCATION, 'r') if line.split(',')[0] == self.name]
@@ -81,4 +80,5 @@ class Event:
 
         self.logs.append(log_event)
         for action in self._actions:
-            action.run(data=data)
+            action.set_data(data)
+            action.run()
