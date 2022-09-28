@@ -20,7 +20,7 @@ try:
     with open('.key', 'r') as key_file:
         UNIQUE_KEY = key_file.read().strip()
 except FileNotFoundError:
-    UNIQUE_KEY = uuid.uuid4()
+    UNIQUE_KEY = str(uuid.uuid4())
     with open('.key', 'w') as key_file:
-        key_file.write(str(UNIQUE_KEY))
+        key_file.write(UNIQUE_KEY)
         key_file.close()
