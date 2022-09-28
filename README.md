@@ -27,6 +27,8 @@ They cover installing with pip and serving a flask app.
 * [Installation](https://github.com/robswc/tradingview-webhooks-bot/wiki/Installation)
 * [Serving the App](https://github.com/robswc/tradingview-webhooks-bot/wiki/Hosting)
 
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=2865cad8f863&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
 **Ensure you're in the `src` directory.**
 
 ### Creating an action
