@@ -7,24 +7,24 @@
 
 [tvwb_demo.webm](https://user-images.githubusercontent.com/38849824/192352217-0bd08426-98b7-4188-8e5b-67d7aa93ba09.webm)
 
-### Live Demo
+### 📀 Live Demo 🖥
 **There's now a live demo available at [https://tvwb.robswc.com](https://tvwb.robswc.com).  
 Feel free to check it out or send it some webhooks!**
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=2865cad8f863&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
 
-# The What
+# The What 🔬
 
 Tradingview-webhooks-bot (TVWB) is a small, Python-based framework that allows you to extend or implement your own logic
 using data from [Tradingview's webhooks](https://www.tradingview.com/support/solutions/43000529348-about-webhooks/). TVWB is not a trading library, it's a framework for building your own trading logic.
 
-# The How
+# The How 🏗
 
 TVWB is fundamentally a set of components with a webapp serving as the GUI. TVWB was built with event-driven architecture in mind that provides you with the building blocks to extend or implement your own custom logic.
 TVWB uses [Flask](https://flask.palletsprojects.com/en/2.2.x/) to handle the webhooks and provides you with a simple API to interact with the data.
 
-# Quickstart
+# Quickstart 📘
 
 If you an experienced Python developer, you can skip the Installation and Serving the app Sections.
 They cover installing with pip and serving a flask app.
