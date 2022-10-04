@@ -1,3 +1,4 @@
+import os
 from logging import getLogger, DEBUG
 
 import typer
@@ -16,9 +17,60 @@ app = typer.Typer()
 logger = get_logger(__name__)
 
 
-@app.command()
-def start():
-    run('gunicorn --bind 0.0.0.0:5000 wsgi:app'.split(' '))
+@app.command('start')
+def start(
+        open_gui: bool = typer.Option(
+            default=False,
+            help='Determines whether the GUI should be served at the root path, or behind a unique key.',
+        ),
+        host: str = typer.Option(
+            default='0.0.0.0'
+        ),
+        port: int = typer.Option(
+            default=5000
+        )
+):
+
+    def clear_gui_key():
+        try:
+            os.remove('.gui_key')
+        except FileNotFoundError:
+            pass
+
+    def generate_gui_key():
+        import secrets
+        if os.path.exists('.gui_key'):
+            pass
+        else:
+            open('.gui_key', 'w').write(secrets.token_urlsafe(24))
+
+    def read_gui_key():
+        return open('.gui_key', 'r').read()
+
+    def print_gui_info():
+        if open_gui:
+            print('GUI is set to [OPEN] - it will be served at the root path.')
+            print(f'\n\tView GUI dashboard here: http://{host}:{port}\n')
+        else:
+            print('GUI is set to [CLOSED] - it will be served at the path /?guiKey=<unique_key>')
+            print(f'\n\tView GUI dashboard here: http://{host}:{port}?guiKey={read_gui_key()}\n')
+            print('To run the GUI in [OPEN] mode (for development purposes only), run the following command: tvwb start --open-gui')
+            gui_modes_url = 'https://github.com/robswc/tradingview-webhooks-bot/discussions/43'
+            print(f'To learn more about GUI modes, visit: {gui_modes_url}')
+
+
+    def run_server():
+        run(f'gunicorn --bind {host}:{port} wsgi:app'.split(' '))
+
+    # clear gui key if gui is set to open, else generate key
+    if open_gui:
+        clear_gui_key()
+    else:
+        generate_gui_key()
+
+    print_gui_info()
+    run_server()
+
 
 
 @app.command('action:create')
@@ -155,6 +207,7 @@ def shell():
     while cmd not in ['exit', 'quit', 'q']:
         run(f'python3 tvwb.py {cmd}'.split(' '))
         cmd = typer.prompt("Enter TVWB command (q) to exit")
+
 
 if __name__ == "__main__":
     app()

@@ -32,6 +32,22 @@ schema_list = {
 @app.route("/", methods=["GET"])
 def dashboard():
     if request.method == 'GET':
+
+        # check if gui key file exists
+        try:
+            with open('.gui_key', 'r') as key_file:
+                gui_key = key_file.read().strip()
+                # check that the gui key from file matches the gui key from request
+                if gui_key == request.args.get('guiKey', None):
+                    pass
+                else:
+                    return 'Access Denied', 401
+
+        # if gui key file does not exist, the tvwb.py did not start gui in closed mode
+        except FileNotFoundError:
+            logger.warning('GUI key file not found. Open GUI mode detected.')
+
+        # serve the dashboard
         action_list = am.get_all()
         return render_template(
             template_name_or_list='dashboard.html',
