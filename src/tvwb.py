@@ -30,7 +30,6 @@ def start(
             default=5000
         )
 ):
-
     def clear_gui_key():
         try:
             os.remove('.gui_key')
@@ -54,7 +53,8 @@ def start(
         else:
             print('GUI is set to [CLOSED] - it will be served at the path /?guiKey=<unique_key>')
             print(f'\n\tView GUI dashboard here: http://{host}:{port}?guiKey={read_gui_key()}\n')
-            print('To run the GUI in [OPEN] mode (for development purposes only), run the following command: tvwb start --open-gui')
+            print(
+                'To run the GUI in [OPEN] mode (for development purposes only), run the following command: tvwb start --open-gui')
             gui_modes_url = 'https://github.com/robswc/tradingview-webhooks-bot/discussions/43'
             print(f'To learn more about GUI modes, visit: {gui_modes_url}')
 
@@ -71,7 +71,6 @@ def start(
     # print info regarding GUI and run the server
     print_gui_info()
     run_server()
-
 
 
 @app.command('action:create')
