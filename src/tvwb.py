@@ -58,16 +58,17 @@ def start(
             gui_modes_url = 'https://github.com/robswc/tradingview-webhooks-bot/discussions/43'
             print(f'To learn more about GUI modes, visit: {gui_modes_url}')
 
-
     def run_server():
         run(f'gunicorn --bind {host}:{port} wsgi:app'.split(' '))
 
     # clear gui key if gui is set to open, else generate key
+    # Flask uses the existence of the key file to determine GUI mode
     if open_gui:
         clear_gui_key()
     else:
         generate_gui_key()
 
+    # print info regarding GUI and run the server
     print_gui_info()
     run_server()
 
