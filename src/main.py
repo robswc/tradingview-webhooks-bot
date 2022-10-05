@@ -85,5 +85,25 @@ def get_logs():
         return jsonify([log.as_json() for log in logs])
 
 
+@app.route("/event/active", methods=["POST"])
+def activate_event():
+    if request.method == 'POST':
+        # get query parameters
+        event_name = request.args.get('event', None)
+
+        # if event name is not provided, or cannot be found, 404
+        if event_name is None:
+            return Response(f'Event name cannot be empty ({event_name})', status=404)
+        try:
+            event = em.get(event_name)
+        except ValueError:
+            return Response(f'Cannot find event with name: {event_name}', status=404)
+
+        # set event to active or inactive, depending on current state
+        event.active = request.args.get('active', True) == 'true'
+        logger.info(f'Event {event.name} active set to: {event.active}, via POST request')
+        return Response(response={event.name: {'active': event.active}}, status=200)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

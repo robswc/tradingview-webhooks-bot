@@ -42,6 +42,7 @@ class Event:
 
     def __init__(self):
         self.name = self.get_name()
+        self.active = True
         self.webhook = True  # all events are webhooks by default
         self.key = f'{self.name}:{md5(f"{self.name + UNIQUE_KEY}".encode()).hexdigest()[:6]}'
         self._actions = []
@@ -70,15 +71,17 @@ class Event:
         self._actions.append(action)
 
     def trigger(self, *args, **kwargs):
-        # handle logging
-        logger.info(f'EVENT TRIGGERED --->\t{str(self)}')
-        log_event = LogEvent(self.name, 'triggered', datetime.now(), f'{self.name} was triggered')
-        log_event.write()
+        if self.active:
+            logger.info(f'EVENT TRIGGERED --->\t{str(self)}')
+            log_event = LogEvent(self.name, 'triggered', datetime.now(), f'{self.name} was triggered')
+            log_event.write()
 
-        # pass data
-        data = kwargs.get('data')
+            # pass data
+            data = kwargs.get('data')
 
-        self.logs.append(log_event)
-        for action in self._actions:
-            action.set_data(data)
-            action.run()
+            self.logs.append(log_event)
+            for action in self._actions:
+                action.set_data(data)
+                action.run()
+        else:
+            logger.info(f'EVENT NOT TRIGGERED (event is inactive) --->\t{str(self)}')
