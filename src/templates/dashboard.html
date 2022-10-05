@@ -133,8 +133,15 @@
                                                         </details>
                                                     </div>
                                                 </div>
-                                                <div>
-                                                    <i class="fa-solid fa-circle-check fs-3 text-success"></i>
+                                                <div class="d-flex align-items-center justify-content-end gap-5">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input toggle-active-switch"
+                                                               type="checkbox" role="switch"
+                                                               id="{{ event }}toggleActiveSwitch" checked>
+                                                        <label class="form-check-label"
+                                                               for="{{ event }}toggleActiveSwitch">Active</label>
+                                                    </div>
+                                                    <i id="{{ event }}ActiveStatus" class="fa-solid fa-circle-check fs-3 text-success"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -216,7 +223,33 @@
         </div>
     </div>
 </div>
-
+<script>
+    // on document load
+    $(document).ready(
+        function toggleEventActive() {
+            $('.toggle-active-switch').on('change', function () {
+                console.log('toggle active')
+                let event = $(this).attr('id').split('toggleActiveSwitch')[0];
+                let active = $(this).is(':checked');
+                $.ajax({
+                    url: `/event/active?event=${event}&active=${active}`,
+                    type: 'POST',
+                    success: function (data) {
+                        console.log(data);
+                        const statusIcon = $(`#${event}ActiveStatus`)
+                        if (data['active']) {
+                            statusIcon.addClass('fa-circle-check text-success');
+                            statusIcon.removeClass('fa-circle-xmark text-danger');
+                        } else {
+                            statusIcon.removeClass('fa-circle-check text-success');
+                            statusIcon.addClass('fa-circle-xmark text-danger');
+                        }
+                    }
+                })
+            })
+        }
+    )
+</script>
 <script>
     var data = [
         {
