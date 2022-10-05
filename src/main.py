@@ -102,7 +102,7 @@ def activate_event():
         # set event to active or inactive, depending on current state
         event.active = request.args.get('active', True) == 'true'
         logger.info(f'Event {event.name} active set to: {event.active}, via POST request')
-        return Response(response={event.name: {'active': event.active}}, status=200)
+        return {'active': event.active}
 
 
 if __name__ == '__main__':
