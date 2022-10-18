@@ -59,6 +59,7 @@ def start(
             print(f'To learn more about GUI modes, visit: {gui_modes_url}')
 
     def run_server():
+        print("Close server with Ctrl+C in terminal.")
         run(f'gunicorn --bind {host}:{port} wsgi:app'.split(' '))
 
     # clear gui key if gui is set to open, else generate key
