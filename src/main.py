@@ -63,7 +63,7 @@ def webhook():
     if request.method == 'POST':
         data = request.get_json()
         if data is None:
-            logger.error(f'Error getting JSON data from request: {e}')
+            logger.error(f'Error getting JSON data from request...')
             logger.error(f'Request data: {request.data}')
             logger.error(f'Request headers: {request.headers}')
             return 'Error getting JSON data from request', 400
