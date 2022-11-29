@@ -1,10 +1,8 @@
 import os
-from logging import getLogger, DEBUG
-
-import typer
 from subprocess import run
 
-from components.events.base.event import em
+import typer
+
 from utils.copy_template import copy_from_template
 from utils.formatting import snake_case
 from utils.log import get_logger
