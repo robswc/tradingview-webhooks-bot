@@ -61,10 +61,8 @@ def dashboard():
 @app.route("/webhook", methods=["POST"])
 def webhook():
     if request.method == 'POST':
-
-        try:
-            data = request.get_json()
-        except Exception as e:
+        data = request.get_json()
+        if data is None:
             logger.error(f'Error getting JSON data from request: {e}')
             logger.error(f'Request data: {request.data}')
             logger.error(f'Request headers: {request.headers}')
