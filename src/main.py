@@ -61,12 +61,21 @@ def dashboard():
 @app.route("/webhook", methods=["POST"])
 def webhook():
     if request.method == 'POST':
-        logger.info(f'Request Data: {request.get_json()}')
+
+        try:
+            data = request.get_json()
+        except Exception as e:
+            logger.error(f'Error getting JSON data from request: {e}')
+            logger.error(f'Request data: {request.data}')
+            logger.error(f'Request headers: {request.headers}')
+            return 'Error getting JSON data from request', 400
+
+        logger.info(f'Request Data: {data}')
         triggered_events = []
         for event in em.get_all():
             if event.webhook:
-                if event.key == request.get_json()['key']:
-                    event.trigger(data=request.get_json())
+                if event.key == data['key']:
+                    event.trigger(data=data)
                     triggered_events.append(event.name)
 
         if not triggered_events:
