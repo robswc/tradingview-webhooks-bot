@@ -8,4 +8,4 @@ MarkupSafe==2.1.1
 shellingham==1.5.0
 typer==0.3.2
 typer-cli==0.0.12
-Werkzeug==2.0.3
+Werkzeug==2.2.3
