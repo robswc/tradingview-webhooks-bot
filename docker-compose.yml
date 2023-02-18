@@ -1,0 +1,11 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - ./src/components:/app/components
+        ports:
+            - "5000:5000"
+        network_mode: 'host'
+        entrypoint: python3 tvwb.py

@@ -117,7 +117,10 @@
                                                                     {% endfor %}
                                                                 </div>
                                                                 <div class="p-3 bg-light shadow-sm">
-                                                                    <div class='fs-4'>Key</div>
+                                                                    <div class="d-flex align-items-center">
+                                                                        <div class='fs-4'>Key</div>
+                                                                        <small class="text-muted ps-2">(entire string)</small>
+                                                                    </div>
                                                                     <div>
                                                                         <code id="{{ key }}-field">{{ event.key }}</code>
                                                                         <button
