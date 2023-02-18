@@ -27,15 +27,24 @@ TVWB uses [Flask](https://flask.palletsprojects.com/en/2.2.x/) to handle the web
 
 # Quickstart 📘
 
-If you an experienced Python developer, you can skip the Installation and Serving the app Sections.
-They cover installing with pip and serving a flask app.
+### Installation
 
-* [Installation](https://github.com/robswc/tradingview-webhooks-bot/wiki/Installation)
-* [Serving the App](https://github.com/robswc/tradingview-webhooks-bot/wiki/Hosting)
+* [Docker](https://github.com/robswc/tradingview-webhooks-bot/wiki/Docker) (recommended)
+* [Manual](https://github.com/robswc/tradingview-webhooks-bot/wiki/Installation)
+
+### Hosting
+
+* [Deploying](https://github.com/robswc/tradingview-webhooks-bot/wiki/Hosting)
+  * [Cloud](https://github.com/robswc/tradingview-webhooks-bot/wiki/Hosting#cloud-hosting) (recommended)
+  * [Local](https://github.com/robswc/tradingview-webhooks-bot/wiki/Hosting#using-a-personal-pc)
 
 
-**Ensure you're in the `src` directory.**
+---
+Ensure you're in the `src` directory. When running the following commands, **if you installed manually**.  
+**If you used docker**,
+start the tvwb.py shell with `docker-compose run app shell` (in the project root directory) and omit the `python3 tvwb.py` portion of the commands.
 
+---
 ### Creating an action
 
 ```bash

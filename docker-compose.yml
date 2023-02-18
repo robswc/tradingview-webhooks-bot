@@ -5,6 +5,7 @@ services:
             dockerfile: Dockerfile
         volumes:
             - ./src/components:/app/components
+            - ./src/settings.py:/app/settings.py
         ports:
             - "5000:5000"
         network_mode: 'host'
