@@ -55,6 +55,8 @@ This creates an action and automatically registers it with the app.  [Learn more
 
 _Note, action and event names should **_always_** be in PascalCase._
 
+You can also check out some "pre-made" [community actions](https://github.com/robswc/tradingview-webhooks-bot/tree/master/src/components/actions/community_created_actions)!
+
 ### Linking an action to an event
 
 ```bash
