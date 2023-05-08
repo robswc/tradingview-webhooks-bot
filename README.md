@@ -120,10 +120,9 @@ SDKs or APIs available.  The general workflow would look something like: webhook
 
 You can use the `tvwb.py shell` command to open a python shell with the app context.  This allows you to interact with the app without having to enter `python3 tvwb.py` every time.
 
-#### Running Docker on Windows?
+#### Running Docker on Windows/Mac?
 
-If you are using Docker on Windows, open the `docker-compose.yml` file and either remove the line `network_mode: 'host'` or change `host` to `bridge` (default when `network_mode` is not provided).
-The `host` network mode does not work with Windows and will cause the connection to the container to never complete. You will also need to add the `publish` parameter to the docker command such as: `docker-compose -dp 5000:5000 run app`.
+Thanks to @khamarr3524 for pointing out there are some docker differences when running on Windows or Mac.  I've added OS-specific `docker-compose.yml` files to accomodate these differences.  One should be able to run their respective OS's `docker-compose.yml` file without issue now!
 
 #### How do I get more help?
 
