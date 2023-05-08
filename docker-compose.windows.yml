@@ -1,0 +1,16 @@
+# For windows, we need to use network_mode: 'bridge' instead of network_mode: 'host'
+
+version: '3'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - ./src/components:/app/components
+            - ./src/settings.py:/app/settings.py
+        ports:
+            - "5000:5000"
+        network_mode: 'bridge'
+        entrypoint: python3 tvwb.py
