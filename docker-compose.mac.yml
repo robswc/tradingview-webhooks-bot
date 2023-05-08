@@ -1,0 +1,16 @@
+# For Macs, there is a default program that uses port 5000, so we need to change the port to 5001.
+
+version: '3'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - ./src/components:/app/components
+            - ./src/settings.py:/app/settings.py
+        ports:
+            - "5001:5000"
+        network_mode: 'host'
+        entrypoint: python3 tvwb.py
