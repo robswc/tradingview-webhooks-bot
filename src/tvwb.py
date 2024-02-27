@@ -1,3 +1,4 @@
+import json
 import os
 from subprocess import run
 
@@ -196,16 +197,19 @@ def trigger_event(name: str):
     logger.info(f'Triggering event --->\t{name}')
     # import event
     event = getattr(__import__(f'components.events.{snake_case(name)}', fromlist=['']), name)()
-    event.trigger_actions()
+    event.trigger({})
     return True
 
 
-@app.command('shell')
-def shell():
-    cmd = '--help'
-    while cmd not in ['exit', 'quit', 'q']:
-        run(f'python3 tvwb.py {cmd}'.split(' '))
-        cmd = typer.prompt("Enter TVWB command (q) to exit")
+@app.command('util:send-webhook')
+def send_webhook(key: str):
+    logger.info(f'Sending webhook')
+    post_data = json.dumps({
+        "test": "data",
+        "key": key})
+    # send with curl
+    run(['curl', '-X', 'POST', '-H', 'Content-Type: application/json', '-d', post_data,
+         'http://localhost:5000/webhook'])
 
 
 if __name__ == "__main__":

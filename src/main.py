@@ -59,7 +59,7 @@ def dashboard():
 
 
 @app.route("/webhook", methods=["POST"])
-def webhook():
+async def webhook():
     if request.method == 'POST':
         data = request.get_json()
         if data is None:

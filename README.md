@@ -27,6 +27,12 @@ TVWB uses [Flask](https://flask.palletsprojects.com/en/2.2.x/) to handle the web
 
 # Quickstart 📘
 
+### Docker compose command
+
+```bash
+docker-compose run app start
+```
+
 ### Installation
 
 * [Docker](https://github.com/robswc/tradingview-webhooks-bot/wiki/Docker) (recommended)
