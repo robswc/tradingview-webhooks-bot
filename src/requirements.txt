@@ -7,8 +7,8 @@ importlib-metadata==6.6.0
 itsdangerous==2.1.2
 Jinja2==3.1.2
 MarkupSafe==2.1.2
-shellingham==1.5.1
-typer==0.9.0
+shellingham==1.4.0
+typer==0.7.0
 typer-cli==0.0.13
 typing_extensions==4.5.0
 Werkzeug==2.3.3
