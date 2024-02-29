@@ -6,6 +6,8 @@ services:
         volumes:
             - ./src/components:/app/components
             - ./src/settings.py:/app/settings.py
+            - ./src/.gui_key:/app/.gui_key
         ports:
             - "5000:5000"
+        network_mode: "host"
         entrypoint: python3 tvwb.py
